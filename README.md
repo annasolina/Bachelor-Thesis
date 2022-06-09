@@ -3,19 +3,25 @@ In this repository you will find the different challenges I have solved for the 
 
 ## web_Command_Execution_Challenge
 
-The challenge consists of exploiting a command injection.
+The challenge is to exploit a command injection.
 
-Through a GET request to the root / with the domain parameter, it is possible to make a dns request to a site. e.g. /?domain=www.ulisse.unibo.it
+Through a GET request to the root / with the parameter domain, it is possible to make a dns request to a site, e.g. /?domain=www.ulisse.unibo.it.
 
-The purpose of the exercise is to exploit command injection and retrieve/read the file /etc/passwd.
+The goal of the exercise is to exploit the command injection and retrieve/read the first ten lines and the last ten lines of the /etc/passwd file.
 
-The first step is to see that if you run http://127.0.0.1:8000/?domain=www.ulisse.unibo.it in the explorer you can see that the server is not able to give you the information correctly. However, if you run dig www.ulisse.unibo.it in the terminal, you can see the DNS information. 
+The first step is to see that if you run http://localhost:8000/?domain=www.ulisse.unibo.it in the browser you can see that the server is not able to give you the information correctly. However, if you run dig www.ulisse.unibo.it in the terminal, you can see the DNS information. 
 
-The next step is to check that you can execute two commands at the same time, but of course, you have to be aware that the browser has not been able to deliver the correct DNS information, so if you run http://127.0.0.1:8000/?domain=www.ulisse.unibo.it && ls in the browser it will not work because it cannot do both commands. Instead, we have to use "||" as it will do only one. 
+The next step is to check that you can run two commands at the same time, but of course, you have to take into account that the browser has not been able to deliver the correct DNS information, so if you run http://localhost:8000/?domain=www.ulisse.unibo.it && ls in the browser it will not work because it cannot do both commands. Instead, we have to use "|" as it will only do one. 
 
-Finally, you can see that there are quite a few filters to print the file in question. For example, if you use the cat command, you will get a response specifying that the command used is banned. Another example is that it has a filter that prohibits files ending in wd from being seen, so the solution is to use less /etc/passw*.
+Next, you can see that there are quite a few filters to print the file in question. For example, if you use the cat command, you will get a response specifying that the command used is forbidden. 
 
-So, the answer to the exercise is to run the following line in the explorer browser: http://127.0.0.1:8000/?domain=www.ulisse.unibo.it || less /etc/passw*.
+We are looking for commands that allow us to view the file. If we use commands that are used to edit the files like vi or nano, we see that they are also disabled. Although it seems that this could be a viable solution, as file editors they do not print as requested. 
+
+Another option we have is to use the command less, we see that this is also filtered but we get a hint. It tells us to think that we only have to print the first and last ten lines of the file. That said, we can think of using the commands head and tail. With these two commands we can get the correct answer. 
+
+Finally, we see that the challenge has a filter that prohibits us from seeing files that end in wd, so the solution is to use head /etc/passw* and tail /etc/passw*.
+
+Therefore, the answer to the exercise is to run the following line in the explorer: http://localhost/?domain=www.ulisse.unibo.it | head /etc/passw* and http://localhost/?domain=www.ulisse.unibo.it | tail /etc/passw*.
 
 ## Web_SQLi_Challenge
 
