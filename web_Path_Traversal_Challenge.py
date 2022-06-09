@@ -26,14 +26,14 @@ class ReqHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             if path == '/':
                 if "path" in params:
                     paths=str(params["path"])
-                    if re.search("^/[a-zA-Z0-9]+",paths):
-                        content = "Error! We have disabled the ability to directly invoke the /etc/passwd file, the path parameter cannot start with / followed by any alphanumeric character. HINT: / + alphanumeric character, what is left out?"
-                    elif re.search("^\.\./",paths):
+                    if re.search("^\.\./",paths):
                         content = "Error! Can't invoke a path starting with ../, are you sure it's a path traversal?"
                     elif re.search("^/\.\.",paths):
                         content = "Error! It is not possible to invoke a path starting with /.., are you sure it is a traversal path?"
                     elif re.search("^//",paths):
-			            content = "Error! It's also not possible to invoke a path with //, maybe you can make something newest and combination of both?"
+			content = "Error! It's also not possible to invoke a path with //, maybe you can make something newest and combination of both?"
+		    elif re.search("^/[a-zA-Z0-9]+",paths):
+                        content = "Error! We have disabled the ability to directly invoke the /etc/passwd file, the path parameter cannot start with / followed by any alphanumeric character. HINT: / + alphanumeric character, what is left out?"
                     elif re.search("wd$",paths):
                         content = "Error! The path cannot end with \"wd\", what can you use to overide this +wild+ filter?"
                     else:

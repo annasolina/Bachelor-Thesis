@@ -33,8 +33,12 @@ class ReqHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                         content = "We disabled the 'cat' command... other commands exist!"
                     elif re.search("wd$",paths):
                         content = "Error! The path cannot terminate for \"wd\", what can you use to ovreride the +wild+ filter?"
-                    elif re.search("&&",paths):
-			content = "Sorry, the character '&&' it has been disabled, but are you sure that you really need it?"
+                    elif re.search("nano",paths):
+			content = "We have also disabled the 'nano' command!"
+                    elif re.search("vi", paths):
+                        content = "sorry, you cannot use this command... but this is a command to edit files, are you sure you need this?"
+                    elif re.search("less",paths):
+                        content = "We have disabled the 'less' command! But, are you sure you need it if you only have to read the first 10 lines and the last 10?"
                     else:
                         # print glob.glob(paths)
                         # final = glob.glob(paths)[0]
@@ -46,7 +50,7 @@ class ReqHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                     content +="<div><span>Web Challenge Examination 10 September 2021:</span></div>\n"
                     content +="<p> The Challenge consists of exploiting a command injection </p>"
                     content +="<p> Through a GET request to the root / with the domain parameter, it is possible to make a dns request to a site. e.g. /?domain=www.ulisse.unibo.it</p>"
-                    content +="<p> The purpose of the exercise is to exploit command injection and retrieve/read the file /etc/passwd</p>"
+                    content +="<p> The purpose of the exercise is to exploit command injection and retrieve/read the first 10 lines and the last 10 lines of the file /etc/passwd</p>"
                     content +="<p> There are some character filters that you can use </p>"
                     content +="<p> For each \"matched\" filter, a small hint will be given </p>"
                     content +="<p> The student must then hand over 3 files </p>"
